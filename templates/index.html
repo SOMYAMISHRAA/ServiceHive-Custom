@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflx - AutoStream</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="page-container">
+        <!-- Dashboard Sidebar for context/state -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Inflx</h2>
+                <p>Lead Intel Engine</p>
+            </div>
+            
+            <div class="state-monitor">
+                <h3>Live State</h3>
+                <div class="state-item" id="state-intent">
+                    <span class="label">Intent:</span>
+                    <span class="value">Awaiting...</span>
+                </div>
+                <div class="state-item" id="state-name">
+                    <span class="label">Name:</span>
+                    <span class="value missing">Missing</span>
+                </div>
+                <div class="state-item" id="state-email">
+                    <span class="label">Email:</span>
+                    <span class="value missing">Missing</span>
+                </div>
+                <div class="state-item" id="state-platform">
+                    <span class="label">Platform:</span>
+                    <span class="value missing">Missing</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="badge">Autostream Agent Active</div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Interface -->
+        <main class="chat-container">
+            <header class="chat-header">
+                <h1>AutoStream Assistant</h1>
+                <p>Ask about our tools, pricing, or plans!</p>
+            </header>
+            
+            <div class="chat-history" id="chat-history">
+                <div class="message ai-message">
+                    <div class="avatar">AI</div>
+                    <div class="content">Hi there! I'm the AutoStream assistant. How can I help you level up your video content today?</div>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+                <button id="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script loaded at the end -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
