@@ -16,7 +16,13 @@ if not os.environ.get("GOOGLE_API_KEY"):
     raise ValueError("GOOGLE_API_KEY environment variable is missing. Please set it in a .env file.")
 
 # Using Gemini 1.5 Flash as requested, temperature 0 for deterministic outputs and tool calls
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", temperature=0)
+
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-3.8-flash",
+    temperature=0
+)
+
 
 # 1. State Definition
 class AppState(TypedDict):
@@ -53,7 +59,7 @@ def classify_intent_node(state: AppState):
     if not last_user_msg:
         return {"intent": "GREETING"}
         
-    classification_prompt = """You are an intent classifier for AutoStream, a video editing SaaS platform.
+    classification_prompt = """You are an intent classifier for NovaLead, a video editing SaaS platform.
 Classify the user's latest message into one of three intents based on the conversation history:
 1. "GREETING": The user is casually greeting, making small talk, or saying hello.
 2. "RAG": The user is asking about product features, pricing, or plans.
@@ -67,7 +73,7 @@ User's latest message: {last_msg}
 
 def greeting_node(state: AppState):
     """Handle casual greetings."""
-    sys_msg = SystemMessage(content="You are a friendly agent for AutoStream, automated video editing tools for creators. Respond politely to greetings and introduce the service briefly.")
+    sys_msg = SystemMessage(content="You are a friendly agent for NovaLead , automated video editing tools for creators. Respond politely to greetings and introduce the service briefly.")
     res = llm.invoke([sys_msg] + state["messages"])
     return {"messages": [res]}
 
@@ -76,7 +82,7 @@ def rag_node(state: AppState):
     with open("knowledge_base.md", "r") as f:
         kb_text = f.read()
     
-    prompt = f"""You are an authoritative sales assistant for AutoStream. Answer the user's questions based ONLY on the following knowledge base:
+    prompt = f"""You are an authoritative sales assistant for NovaLead. Answer the user's questions based ONLY on the following knowledge base:
 <knowledge_base>
 {kb_text}
 </knowledge_base>
@@ -106,7 +112,7 @@ def lead_capture_node(state: AppState):
         # FIRE TOOL!
         mock_lead_capture(current_name, current_email, current_platform)
         
-        success_msg = "Fantastic! I've successfully captured your details. Our team will reach out to you shortly to get you set up with your AutoStream plan. Let me know if you need anything else!"
+        success_msg = "Fantastic! I've successfully captured your details. Our team will reach out to you shortly to get you set up with your NovaLead plan. Let me know if you need anything else!"
         
         return {
             "messages": [AIMessage(content=success_msg)],
@@ -121,7 +127,7 @@ def lead_capture_node(state: AppState):
         if not current_email: missing.append("email")
         if not current_platform: missing.append("creator platform (e.g. YouTube, Instagram)")
         
-        system_prompt = f"""You are an expert sales qualifier for AutoStream. The user wants to sign up or try a plan. 
+        system_prompt = f"""You are an expert sales qualifier for NovaLead. The user wants to sign up or try a plan. 
 You need to collect their Name, Email, and Creator Platform. 
 
 You are currently missing: {", ".join(missing)}.
