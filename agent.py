@@ -1,7 +1,10 @@
 import os
 import operator
+
 from typing import TypedDict, Annotated, Literal, Optional
 from dotenv import load_dotenv
+
+from database import save_lead
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
@@ -43,10 +46,19 @@ class LeadInfo(BaseModel):
     platform: Optional[str] = Field(description="The user's creator platform (e.g. YouTube, Instagram) if provided in the text. Empty if not.", default=None)
 
 # 3. Tool Function (Strictly called when all info is gathered)
+
 def mock_lead_capture(name: str, email: str, platform: str):
-    print(f"\n[LEAD CAPTURED] 🎉 Successful Mock Tool Execution!")
-    print(f"Name: {name} | Email: {email} | Platform: {platform}\n")
-    return {"status": "success"}
+    """Save a captured lead to the SQLite database."""
+    result = save_lead(name, email, platform)
+
+    if result["status"] == "success":
+        print("\n[LEAD SAVED] Successfully stored in SQLite!")
+        print(f"Name: {name} | Email: {email} | Platform: {platform}\n")
+    else:
+        print("\n[LEAD SAVE FAILED] Could not store lead in SQLite.\n")
+
+    return result
+
 
 # 4. Nodes
 def classify_intent_node(state: AppState):
